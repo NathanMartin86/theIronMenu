@@ -1,10 +1,6 @@
 package com.theironyard;
-
 import jodd.json.JsonSerializer;
 import spark.Spark;
-
-import java.lang.reflect.*;
-import java.lang.reflect.Array;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -131,11 +127,20 @@ public class Main {
         Spark.get(
                 "/menu",
                 ((request, response) -> {
+                    String type = request.queryParams("type");
+                    ArrayList<MenuItem> items;
+
+                    if (type == null) {
+                        items = selectMenu(conn);
+                    } else {
+                        items = typeFilter(conn, type);
+                    }
                     JsonSerializer serializer = new JsonSerializer();
-                    String json = serializer.serialize(selectMenu(conn));
+                    String json = serializer.serialize(items);
                     return json;
                 })
         );
+
         Spark.post(
                 "/add-item",
                 ((request, response) -> {
@@ -175,7 +180,7 @@ public class Main {
                         editItem(conn, idNum, name, type, isBreakfast, isLunch, isDinner, price, isVegetarian, isGlutenFree, priceRange);
                     } catch (Exception e) {
                     }
-                    response.redirect("/menu");
+
                     return "";
                 })
         );
@@ -190,27 +195,8 @@ public class Main {
                     } catch (Exception e) {
 
                     }
-                    response.redirect("/menu");
                     return "";
                 })
         );
     }
 }
-
-/*
-
-        Spark.get(
-                "/type-filer",
-                ((request, response) -> {
-                String type = request.queryParams("type");
-
-
-
-
-
-                    }
-                }
-        );
-    }
-}
-*/
