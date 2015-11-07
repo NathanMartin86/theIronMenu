@@ -7,9 +7,9 @@ public class MenuItem {
     int id;
     String name;
     String type;
-    Boolean breakfast;
-    Boolean lunch;
-    Boolean dinner;
+    boolean breakfast;
+    boolean lunch;
+    boolean dinner;
     double price;
     Boolean vegetarian;
     Boolean glutenFree;
@@ -27,17 +27,9 @@ public class MenuItem {
         return type;
     }
 
-    public Boolean getBreakfast() {
-        return breakfast;
-    }
+    public boolean isLunch() {return lunch;}
 
-    public Boolean getLunch() {
-        return lunch;
-    }
-
-    public Boolean getDinner() {
-        return dinner;
-    }
+    public boolean isDinner() {return dinner;}
 
     public double getPrice() {
         return price;
